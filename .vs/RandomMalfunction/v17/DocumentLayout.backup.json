@@ -1,0 +1,83 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\FLX\\RandomMalfunction\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C9607611-CFF0-45DE-9BD0-E923EA966B6B}|RandomMalfunction\\RandomMalfunction.csproj|C:\\FLX\\RandomMalfunction\\randommalfunction\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9607611-CFF0-45DE-9BD0-E923EA966B6B}|RandomMalfunction\\RandomMalfunction.csproj|solutionrelative:randommalfunction\\config.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9607611-CFF0-45DE-9BD0-E923EA966B6B}|RandomMalfunction\\RandomMalfunction.csproj|c:\\flx\\randommalfunction\\randommalfunction\\eventhandlers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9607611-CFF0-45DE-9BD0-E923EA966B6B}|RandomMalfunction\\RandomMalfunction.csproj|solutionrelative:randommalfunction\\eventhandlers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C9607611-CFF0-45DE-9BD0-E923EA966B6B}|RandomMalfunction\\RandomMalfunction.csproj|C:\\FLX\\RandomMalfunction\\randommalfunction\\pluginmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C9607611-CFF0-45DE-9BD0-E923EA966B6B}|RandomMalfunction\\RandomMalfunction.csproj|solutionrelative:randommalfunction\\pluginmain.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PluginMain.cs",
+              "DocumentMoniker": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\PluginMain.cs",
+              "RelativeDocumentMoniker": "RandomMalfunction\\PluginMain.cs",
+              "ToolTip": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\PluginMain.cs",
+              "RelativeToolTip": "RandomMalfunction\\PluginMain.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-29T19:45:46.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Config.cs",
+              "DocumentMoniker": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\Config.cs",
+              "RelativeDocumentMoniker": "RandomMalfunction\\Config.cs",
+              "ToolTip": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\Config.cs",
+              "RelativeToolTip": "RandomMalfunction\\Config.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T11:13:22.978Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EventHandlers.cs",
+              "DocumentMoniker": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\EventHandlers.cs",
+              "RelativeDocumentMoniker": "RandomMalfunction\\EventHandlers.cs",
+              "ToolTip": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\EventHandlers.cs",
+              "RelativeToolTip": "RandomMalfunction\\EventHandlers.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T10:18:37.966Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
