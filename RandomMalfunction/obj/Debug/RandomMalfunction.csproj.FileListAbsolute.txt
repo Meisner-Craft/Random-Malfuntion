@@ -1,0 +1,5 @@
+C:\Users\Meisner\AppData\Roaming\EXILED\Plugins\RandomMalfunction.dll
+C:\FLX\RandomMalfunction\RandomMalfunction\obj\Debug\RandomMalfunction.csproj.AssemblyReference.cache
+C:\FLX\RandomMalfunction\RandomMalfunction\obj\Debug\RandomMalfunction.csproj.CoreCompileInputs.cache
+C:\FLX\RandomMalfunction\RandomMalfunction\obj\Debug\RandomMa.66B7EBF9.Up2Date
+C:\FLX\RandomMalfunction\RandomMalfunction\obj\Debug\RandomMalfunction.dll

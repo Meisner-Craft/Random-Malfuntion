@@ -14,10 +14,10 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\Users\Meisner\AppData\Roaming\EXILED\Plugins\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -43,9 +43,6 @@
     <Reference Include="Exiled.Events">
       <HintPath>..\..\References\Exiled.Events.dll</HintPath>
     </Reference>
-    <Reference Include="LabApi">
-      <HintPath>..\..\References\LabApi.dll</HintPath>
-    </Reference>
     <Reference Include="Mirror">
       <HintPath>..\..\References\Mirror.dll</HintPath>
     </Reference>
@@ -65,7 +62,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Decontamination.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="PluginMain.cs" />

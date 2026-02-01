@@ -3,8 +3,11 @@ using System.ComponentModel;
 
 namespace RandomMalfunction
 {
-    public class Config
+    public class Config : IConfig
     {
+        public bool IsEnabled { get; set; } = true;
+        public bool Debug { get; set; } = false;
+
         // Список CASSIE
         [Description("Обеззараживание ТЗС через 1 минуту")]
         public string Decontamination1MinuteCassie { get; set; } = "danger . heavy containment zone overall decontamination in t minus 1 minutes";
@@ -38,7 +41,35 @@ namespace RandomMalfunction
         public string DoorMalfunctionTranslation { get; set; } = "Внимание! <split> Обнаружены многочисленные неисправности в системе дистанционного управления дверьми учреждения!";
 
 
-        // Настройки поломки света
+
+        // Настройки шансов
+        [Description("Обеззараживание LCZ спустя 10 минут произойдет с произойдёт")]
+        public int DecontaminationLcz10MinuteChange { get; set; } = 35;
+
+        [Description("Обеззараживание LCZ спустя 5 минут произойдёт с шансом")]
+        public int DecontaminationLcz5MinuteChange { get; set; } = 10;
+
+        [Description("Спустя 15 минут обеззараживание HCZ произойдет с шансом произойдёт")]
+        public int DecontaminationHczChance { get; set; } = 25;
+
+        [Description("Сбои света произойдет с шансом")]
+        public int LightingMalfunctionChance { get; set; } = 20;
+
+        [Description("Открытие всех дверей произойдет с шансом")]
+        public int DoorMalfunctionChance { get; set; } = 5;
+
+        [Description("Блокировках всех КПП в ЛЗС  произойдет с шансом")]
+        public int BlockAllLczCheckpointsChance { get; set; } = 10;
+
+
+
+        // Настройки времени
+        [Description("Сколько времени нужно перед поломкой от начала раунда")]
+        public float BeforeDuration { get; set; } = 60f;
+
+        [Description("На сколько будут блокироваться чекпоинты в ЛЗС")]
+        public float BlockAllLczCheckpointsDuration { get; set; } = 120f;
+
         [Description("Сколько секунд будет мерцать свет при поломке")]
         public float LightingMalfunctionDuration { get; set; } = 5f;
 

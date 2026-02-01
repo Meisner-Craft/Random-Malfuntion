@@ -1,9 +1,8 @@
 ﻿using CustomPlayerEffects;
 using Exiled.API.Enums;
 using Exiled.API.Features;
-using LabApi.Events.CustomHandlers;
-using LabApi.Features.Enums;
-using LabApi.Features.Wrappers;
+using Exiled.API.Features.Doors;
+using Exiled.Events.Handlers;
 using LightContainmentZoneDecontamination;
 using MEC;
 using System;
@@ -12,41 +11,40 @@ using System.Linq;
 
 namespace RandomMalfunction
 {
-    public class EventHandlers : CustomEventsHandler
+    public class EventHandlers
     {
-        public override void OnServerRoundStarted()
+        public static object Singleton { get; set; }
+
+        public void RoundStarted()
         {
             // обеззараживание LCZ произойдёт спустя 10 минут
-            if (RandomPercentage(35))
+            if (RandomPercentage(PluginMain.Singleton.Config.DecontaminationLcz10MinuteChange))
                 DecontaminationController.Singleton.TimeOffset = 300f;
 
 
             // обеззараживание LCZ произойдёт спустя 5 минут
-            if (RandomPercentage(10))
+            if (RandomPercentage(PluginMain.Singleton.Config.DecontaminationLcz5MinuteChange))
                 DecontaminationController.Singleton.TimeOffset = 600f;
 
 
             // спустя 15 минут произойдёт обеззараживание HCZ
-            if (RandomPercentage(25))
+            if (RandomPercentage(PluginMain.Singleton.Config.DecontaminationHczChance))
                 Timing.RunCoroutine(HczDecontamination());
 
 
             // Сбои света
-            if (RandomPercentage(20))
+            if (RandomPercentage(PluginMain.Singleton.Config.LightingMalfunctionChance))
                 Timing.RunCoroutine(LightingMalfunction());
 
 
             // Открытие всех дверей
-            if (RandomPercentage(5))
-                OpenAllDoor();
+            if (RandomPercentage(PluginMain.Singleton.Config.DoorMalfunctionChance))
+                Timing.RunCoroutine(OpenAllDoor());
 
 
             // Блокировках всех КПП в ЛЗС
-            if (RandomPercentage(10))
+            if (RandomPercentage(PluginMain.Singleton.Config.BlockAllLczCheckpointsChance))
                 Timing.RunCoroutine(BlockAllLczCheckpoints());
-
-
-            base.OnServerRoundStarted();
         }
 
         public bool RandomPercentage(int percentage)
@@ -58,8 +56,7 @@ namespace RandomMalfunction
 
         private IEnumerator<float> HczDecontamination()
         {
-            // Ждем 1 минуту
-            yield return Timing.WaitForSeconds(60);
+            yield return Timing.WaitForSeconds(PluginMain.Singleton.Config.BeforeDuration);
 
             // Кейси
             Exiled.API.Features.Cassie.MessageTranslated(
@@ -97,15 +94,15 @@ namespace RandomMalfunction
             // Открытие и блок всех дверей в ТЗС
             foreach (Door door in Door.List)
             {
-                if( door.Zone == MapGeneration.FacilityZone.HeavyContainment)
+                if (door.Zone == ZoneType.HeavyContainment)
                 {
-                    door.IsOpened = false;
-                    door.IsLocked = true;
+                    door.IsOpen = false;
+                    door.Lock(float.PositiveInfinity, DoorLockType.DecontLockdown);
                 }
             }
 
             // Закрытие чекпоинтов в ТЗС
-            LabApi.Features.Wrappers.Map.Doors.FirstOrDefault((Door d) => d.DoorName == DoorName.HczCheckpoint).IsOpened = false;
+            Door.List.FirstOrDefault((Door d) => d.Name == DoorType.CheckpointEzHczA.ToString()).IsOpen = false;
 
             // Выдача игрокам эффекта обеззараживания
             foreach (var player in Exiled.API.Features.Player.List)
@@ -119,7 +116,7 @@ namespace RandomMalfunction
 
         private IEnumerator<float> LightingMalfunction()
         {
-            yield return Timing.WaitForSeconds(60f);
+            yield return Timing.WaitForSeconds(PluginMain.Singleton.Config.BeforeDuration);
 
             // Кейси
             Exiled.API.Features.Cassie.MessageTranslated(
@@ -131,35 +128,22 @@ namespace RandomMalfunction
             float periodicity = PluginMain.Singleton.Config.LightingMalfunctionPeriodicity;
 
             float score = 0f;
-            bool lightState = true;
 
             while (score < duration)
             {
                 if(score % periodicity == 0f) // Каждые periodicity секунд
                 {
-                    if(lightState)
-                    {   // Выключение света если включен
-                        LabApi.Features.Wrappers.Map.TurnOffLights();
-                        lightState = true;
-                    }
-                    else
-                    {   // Включение свет если выключен
-                        LabApi.Features.Wrappers.Map.TurnOnLights();
-                        lightState = false;
-                    }
+                    Exiled.API.Features.Map.TurnOffAllLights(periodicity/2);
                 }
 
                 Timing.WaitForSeconds(1f);
                 score ++; // Увеличиваем счетчик
             }
-            // Включение света в конце
-            LabApi.Features.Wrappers.Map.TurnOnLights();
         }
 
         private IEnumerator<float> OpenAllDoor()
         {
-            // Ждем 1 минуту
-            yield return Timing.WaitForSeconds(60f);
+            yield return Timing.WaitForSeconds(PluginMain.Singleton.Config.BeforeDuration);
 
             // Кейси
             Exiled.API.Features.Cassie.MessageTranslated(
@@ -169,27 +153,25 @@ namespace RandomMalfunction
             // Открытие всех дверей
             foreach (Door door in Door.List)
             {
-                door.IsOpened = true;
+                door.IsOpen = true;
             }
         }
 
         private IEnumerator<float> BlockAllLczCheckpoints()
         {
+            yield return Timing.WaitForSeconds(PluginMain.Singleton.Config.BeforeDuration);
+
             // Блокировка КПП в ЛЗС
-            LabApi.Features.Wrappers.Map.Doors.FirstOrDefault((Door d) => d.DoorName == DoorName.LczCheckpointA).IsLocked = true;
-            LabApi.Features.Wrappers.Map.Doors.FirstOrDefault((Door d) => d.DoorName == DoorName.LczCheckpointB).IsLocked = true;
+            Door.List.FirstOrDefault((Door d) => d.Name == DoorType.CheckpointLczA.ToString()).Lock(
+                PluginMain.Singleton.Config.BlockAllLczCheckpointsDuration, DoorLockType.Isolation);
+
+            Door.List.FirstOrDefault((Door d) => d.Name == DoorType.CheckpointLczB.ToString()).Lock(
+                PluginMain.Singleton.Config.BlockAllLczCheckpointsDuration, DoorLockType.Isolation);
 
             // Кейси
             Exiled.API.Features.Cassie.MessageTranslated(
                 PluginMain.Singleton.Config.BlockAllLczCheckpointsCassie,
                 PluginMain.Singleton.Config.BlockAllLczCheckpointsTranslation);
-
-            // Ждем 2 минуты
-            yield return Timing.WaitForSeconds(120f);
-
-            // Разблокировка всех КПП в ЛЗС
-            LabApi.Features.Wrappers.Map.Doors.FirstOrDefault((Door d) => d.DoorName == DoorName.LczCheckpointA).IsLocked = false;
-            LabApi.Features.Wrappers.Map.Doors.FirstOrDefault((Door d) => d.DoorName == DoorName.LczCheckpointB).IsLocked = false;
-        }
+        }    
     }
 }
