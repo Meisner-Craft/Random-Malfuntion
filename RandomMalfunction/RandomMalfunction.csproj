@@ -43,6 +43,9 @@
     <Reference Include="Exiled.Events">
       <HintPath>..\..\References\Exiled.Events.dll</HintPath>
     </Reference>
+    <Reference Include="FLXLib">
+      <HintPath>..\..\References\FLXLib.dll</HintPath>
+    </Reference>
     <Reference Include="Mirror">
       <HintPath>..\..\References\Mirror.dll</HintPath>
     </Reference>
@@ -60,8 +63,12 @@
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\References\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="WeightedRandomizer">
+      <HintPath>..\..\References\WeightedRandomizer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CassieMessage.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="PluginMain.cs" />

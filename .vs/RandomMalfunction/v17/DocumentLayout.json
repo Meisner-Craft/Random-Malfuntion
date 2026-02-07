@@ -26,29 +26,29 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Config.cs",
-              "DocumentMoniker": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\Config.cs",
-              "RelativeDocumentMoniker": "RandomMalfunction\\Config.cs",
-              "ToolTip": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\Config.cs",
-              "RelativeToolTip": "RandomMalfunction\\Config.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T11:13:22.978Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "PluginMain.cs",
               "DocumentMoniker": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\PluginMain.cs",
               "RelativeDocumentMoniker": "RandomMalfunction\\PluginMain.cs",
               "ToolTip": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\PluginMain.cs",
               "RelativeToolTip": "RandomMalfunction\\PluginMain.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAawB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-29T19:45:46.129Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Config.cs",
+              "DocumentMoniker": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\Config.cs",
+              "RelativeDocumentMoniker": "RandomMalfunction\\Config.cs",
+              "ToolTip": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\Config.cs",
+              "RelativeToolTip": "RandomMalfunction\\Config.cs",
+              "ViewState": "AgIAADkAAAAAAAAAAAAmwGYAAABwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T11:13:22.978Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
@@ -72,9 +72,9 @@
               "RelativeDocumentMoniker": "RandomMalfunction\\EventHandlers.cs",
               "ToolTip": "C:\\FLX\\RandomMalfunction\\RandomMalfunction\\EventHandlers.cs",
               "RelativeToolTip": "RandomMalfunction\\EventHandlers.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAqwF8AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T10:18:37.966Z",
+              "WhenOpened": "2026-02-04T21:21:35.672Z",
               "EditorCaption": ""
             }
           ]
