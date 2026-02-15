@@ -11,89 +11,86 @@ namespace RandomMalfunction
 {
     public class EventHandlers
     {
+        // Ключи для получения шансов из конфига
+        private const string BlockAllLczCheckpointKey = "BlockAllLczCheckpoint";
+        private const string OpenAllDoorsKey = "OpenAllDoors";
+        private const string LightMalfunctionKey = "LightMalfunction";
+        private const string HczDecontaminationKey = "HczDecontamination";
+        private const string LczDecontamination10MinKey = "LczDecontamination10Min";
+        private const string LczDecontamination5MinKey = "LczDecontamination5Min";
+
         private float secondsLeft = 0;
+
+        // Массив корутин
+        private List<CoroutineHandle> _coroutines = new List<CoroutineHandle>();
 
         public void OnRoundStarted()
         {
             // Блок всех КПП в ЛКЗ
-            if (PluginMain.Singleton.Config.ChanceList.ContainsKey("BlockAllLczCheckpoint"))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(BlockAllLczCheckpointKey, out byte chance1)
+            && CommonExtensions.ChanceChecker(chance1))
             {
-                PluginMain.Singleton.Config.ChanceList.TryGetValue("BlockAllLczCheckpoint", out byte chance);
-                if (CommonExtensions.ChanceChecker(chance))
-                {
-                    var cassie = PluginMain.Singleton.Config.BlockLczCheckpointsCassie;
-                    Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
+                var cassie = PluginMain.Singleton.Config.BlockLczCheckpointsCassie;
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
 
-                    Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, BlockLcsChekpoints);
-                }
+                Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, BlockLcsChekpoints);
             }
 
-
             // Открытие всех дверей
-            if (PluginMain.Singleton.Config.ChanceList.ContainsKey("OpenAllDoors"))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(OpenAllDoorsKey, out byte chance2)
+            && CommonExtensions.ChanceChecker(chance2))
             {
-                PluginMain.Singleton.Config.ChanceList.TryGetValue("OpenAllDoors", out byte chance);
-                if (CommonExtensions.ChanceChecker(chance))
-                {
-                    var cassie = PluginMain.Singleton.Config.DoorMalfunctionCassie;
-                    Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
+                var cassie = PluginMain.Singleton.Config.DoorMalfunctionCassie;
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
 
-                    Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, OpenAllDoors);
-                }
+                Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, OpenAllDoors);
             }
 
 
             // Поломка света
-            if (PluginMain.Singleton.Config.ChanceList.ContainsKey("LightMalfunction"))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(LightMalfunctionKey, out byte chance3)
+            && CommonExtensions.ChanceChecker(chance3))
             {
-                PluginMain.Singleton.Config.ChanceList.TryGetValue("LightMalfunction", out byte chance);
-                if (CommonExtensions.ChanceChecker(chance))
-                {
-                    var cassie = PluginMain.Singleton.Config.LightMalfunctionCassie;
-                    Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
+                var cassie = PluginMain.Singleton.Config.LightMalfunctionCassie;
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
 
-                    Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, LightingMalfunction);
-                }
+                Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, LightingMalfunction);
             }
 
 
             // Обеззараживание ТЗС
-            if (PluginMain.Singleton.Config.ChanceList.ContainsKey("HczDecontamination"))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(HczDecontaminationKey, out byte chance4)
+            && CommonExtensions.ChanceChecker(chance4))
             {
-                PluginMain.Singleton.Config.ChanceList.TryGetValue("HczDecontamination", out byte chance);
-                if (CommonExtensions.ChanceChecker(chance))
-                {
-                    secondsLeft = PluginMain.Singleton.Config.HczDecontaminationDuration;
-                    Timing.RunCoroutine(HczDecontamination());
-                }
+                secondsLeft = PluginMain.Singleton.Config.HczDecontaminationDuration;
+                _coroutines.Add(Timing.RunCoroutine(HczDecontamination()));
             }
 
 
             // Обеззараживание ЛЗС через 10 минут
-            if (PluginMain.Singleton.Config.ChanceList.ContainsKey("LczDecontamination10Min"))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(LczDecontamination10MinKey, out byte chance5)
+            && CommonExtensions.ChanceChecker(chance5))
             {
-                PluginMain.Singleton.Config.ChanceList.TryGetValue("LczDecontamination10Min", out byte chance);
-                if (CommonExtensions.ChanceChecker(chance))
-                {
-                    DecontaminationController.Singleton.TimeOffset = 300f;
-                }
+                DecontaminationController.Singleton.TimeOffset = 300f;
             }
 
 
             // Обеззараживание ЛЗС через 5 минут
-            if (PluginMain.Singleton.Config.ChanceList.ContainsKey("LczDecontamination5Min"))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(LczDecontamination5MinKey, out byte chance6)
+            && CommonExtensions.ChanceChecker(chance6))
             {
-                PluginMain.Singleton.Config.ChanceList.TryGetValue("LczDecontamination5Min", out byte chance);
-                if (CommonExtensions.ChanceChecker(chance))
-                {
-                    DecontaminationController.Singleton.TimeOffset = 600f;
-                }
+                DecontaminationController.Singleton.TimeOffset = 600f;
             }
         }
 
         public void OnRoundEnded()
         {
-            Timing.KillCoroutines();
+            foreach (var coroutine in _coroutines)
+            {
+                Timing.KillCoroutines(coroutine);
+            }
+
+            _coroutines.Clear();
         }
 
 
@@ -111,7 +108,8 @@ namespace RandomMalfunction
 
         private void BlockLcsChekpoints()
         {
-            // Кейси
+            var cassie = PluginMain.Singleton.Config.BlockLczCheckpointsCassie;
+            Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
 
             Door.List.FirstOrDefault((Door d) => d.Type == DoorType.CheckpointLczA).Lock(
                 PluginMain.Singleton.Config.LczCheckpointBlockDuration, DoorLockType.Isolation);
@@ -140,7 +138,7 @@ namespace RandomMalfunction
             // Получаем стадию по секундам из конфига
             if (PluginMain.Singleton.Config.CassieBySeconds.TryGetValue((int)secondsLeft, out var cassie))
             {
-                Cassie.MessageTranslated(cassie.Cassie,cassie.Translation);
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie,cassie.Translation);
             }
 
             if (secondsLeft == 0)
