@@ -5,6 +5,16 @@ using System.ComponentModel;
 
 namespace RandomMalfunction
 {
+    public enum EventKey
+    {
+        BlockAllLczCheckpoint,
+        OpenAllDoors,
+        LightMalfunction,
+        HczDecontamination,
+        LczDecontamination10Min,
+        LczDecontamination5Min
+    }
+
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
@@ -22,15 +32,22 @@ namespace RandomMalfunction
         [Description("Периодичность поломки света")]
         public float LightingMalfunctionPeriodicity { get; set; } = 5f;
 
+        [Description("Время при обеззараживании ЛЗС через 10 минут")]
+        public float LczDecontamination10Min { get; set; } = 300f;
+
+        [Description("Время при обеззараживании ЛЗС через 5 минут")]
+        public float LczDecontamination5Min { get; set; } = 600f;
+
+
         [Description("Шансы срабатывания ивентов")]
-        public Dictionary<string, byte> ChanceList = new Dictionary<string, byte>
+        public Dictionary<EventKey, byte> ChanceList = new Dictionary<EventKey, byte>
         {
-            {"BlockAllLczCheckpoint", 10},
-            {"OpenAllDoors", 5},
-            {"LightMalfunction", 20},
-            {"HczDecontamination", 25},
-            {"LczDecontamination10Min", 35},
-            {"LczDecontamination5Min", 10}
+            {EventKey.BlockAllLczCheckpoint, 10},
+            {EventKey.OpenAllDoors, 5},
+            {EventKey.LightMalfunction, 20},
+            {EventKey.HczDecontamination, 25},
+            {EventKey.LczDecontamination10Min, 35},
+            {EventKey.LczDecontamination5Min, 10}
         };
 
         [Description("Черный список дверей для открытия")]

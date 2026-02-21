@@ -11,14 +11,6 @@ namespace RandomMalfunction
 {
     public class EventHandlers
     {
-        // Ключи для получения шансов из конфига
-        private const string BlockAllLczCheckpointKey = "BlockAllLczCheckpoint";
-        private const string OpenAllDoorsKey = "OpenAllDoors";
-        private const string LightMalfunctionKey = "LightMalfunction";
-        private const string HczDecontaminationKey = "HczDecontamination";
-        private const string LczDecontamination10MinKey = "LczDecontamination10Min";
-        private const string LczDecontamination5MinKey = "LczDecontamination5Min";
-
         private float secondsLeft = 0;
 
         // Массив корутин
@@ -27,8 +19,8 @@ namespace RandomMalfunction
         public void OnRoundStarted()
         {
             // Блок всех КПП в ЛКЗ
-            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(BlockAllLczCheckpointKey, out byte chance1)
-            && CommonExtensions.ChanceChecker(chance1))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
+                EventKey.BlockAllLczCheckpoint, out byte blockAllLczCheckpointChance) && CommonExtensions.ChanceChecker(blockAllLczCheckpointChance))
             {
                 var cassie = PluginMain.Singleton.Config.BlockLczCheckpointsCassie;
                 Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
@@ -37,8 +29,8 @@ namespace RandomMalfunction
             }
 
             // Открытие всех дверей
-            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(OpenAllDoorsKey, out byte chance2)
-            && CommonExtensions.ChanceChecker(chance2))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
+                EventKey.OpenAllDoors, out byte openAllDoorsChance) && CommonExtensions.ChanceChecker(openAllDoorsChance))
             {
                 var cassie = PluginMain.Singleton.Config.DoorMalfunctionCassie;
                 Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
@@ -48,8 +40,8 @@ namespace RandomMalfunction
 
 
             // Поломка света
-            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(LightMalfunctionKey, out byte chance3)
-            && CommonExtensions.ChanceChecker(chance3))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
+                EventKey.LightMalfunction, out byte lightMalfunctionChance) && CommonExtensions.ChanceChecker(lightMalfunctionChance))
             {
                 var cassie = PluginMain.Singleton.Config.LightMalfunctionCassie;
                 Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
@@ -59,8 +51,8 @@ namespace RandomMalfunction
 
 
             // Обеззараживание ТЗС
-            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(HczDecontaminationKey, out byte chance4)
-            && CommonExtensions.ChanceChecker(chance4))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
+                EventKey.HczDecontamination, out var hzDecontaminationChance) && CommonExtensions.ChanceChecker(hzDecontaminationChance))
             {
                 secondsLeft = PluginMain.Singleton.Config.HczDecontaminationDuration;
                 _coroutines.Add(Timing.RunCoroutine(HczDecontamination()));
@@ -68,23 +60,26 @@ namespace RandomMalfunction
 
 
             // Обеззараживание ЛЗС через 10 минут
-            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(LczDecontamination10MinKey, out byte chance5)
-            && CommonExtensions.ChanceChecker(chance5))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
+                EventKey.LczDecontamination10Min, out var lczDecontamination10MinChance) && CommonExtensions.ChanceChecker(lczDecontamination10MinChance))
             {
-                DecontaminationController.Singleton.TimeOffset = 300f;
+                DecontaminationController.Singleton.TimeOffset = PluginMain.Singleton.Config.LczDecontamination10Min;
             }
 
 
             // Обеззараживание ЛЗС через 5 минут
-            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(LczDecontamination5MinKey, out byte chance6)
-            && CommonExtensions.ChanceChecker(chance6))
+            if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
+                EventKey.LczDecontamination5Min, out var lczDecontamination5MinChance) && CommonExtensions.ChanceChecker(lczDecontamination5MinChance))
             {
-                DecontaminationController.Singleton.TimeOffset = 600f;
+                DecontaminationController.Singleton.TimeOffset = PluginMain.Singleton.Config.LczDecontamination5Min;
             }
         }
 
         public void OnRoundEnded()
         {
+            // Timing.KillCoroutines(_coroutines); // Не работает ??
+
+
             foreach (var coroutine in _coroutines)
             {
                 Timing.KillCoroutines(coroutine);
@@ -97,12 +92,11 @@ namespace RandomMalfunction
 
         private void OpenAllDoors()
         {
-            foreach (var door in Exiled.API.Features.Doors.Door.List)
+            // Все двери кроме тех, что в черном списке
+            foreach (var door in Exiled.API.Features.Doors.Door.List.Where(
+                door => !PluginMain.Singleton.Config.OpenDoorBlackList.Contains(door.Type)))
             {
-                if (!PluginMain.Singleton.Config.OpenDoorBlackList.Contains(door.Type))
-                {
-                    door.IsOpen = true;
-                }
+                door.IsOpen = true;
             }
         }
 
