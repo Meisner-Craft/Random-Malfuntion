@@ -1,5 +1,4 @@
 ﻿using Exiled.API.Enums;
-using Exiled.API.Features;
 using Exiled.API.Features.Doors;
 using FLXLib.Extensions;
 using LightContainmentZoneDecontamination;
@@ -22,8 +21,8 @@ namespace RandomMalfunction
             if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
                 EventKey.BlockAllLczCheckpoint, out byte blockAllLczCheckpointChance) && CommonExtensions.ChanceChecker(blockAllLczCheckpointChance))
             {
-                var cassie = PluginMain.Singleton.Config.BlockLczCheckpointsCassie;
-                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
+                var cassie = PluginMain.Singleton.Translation.BlockLczCheckpointsCassie;
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Message, cassie.Subtitles);
 
                 Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, BlockLcsChekpoints);
             }
@@ -32,8 +31,8 @@ namespace RandomMalfunction
             if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
                 EventKey.OpenAllDoors, out byte openAllDoorsChance) && CommonExtensions.ChanceChecker(openAllDoorsChance))
             {
-                var cassie = PluginMain.Singleton.Config.DoorMalfunctionCassie;
-                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
+                var cassie = PluginMain.Singleton.Translation.DoorMalfunctionCassie;
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Message, cassie.Subtitles);
 
                 Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, OpenAllDoors);
             }
@@ -43,8 +42,8 @@ namespace RandomMalfunction
             if (PluginMain.Singleton.Config.ChanceList.TryGetValue(
                 EventKey.LightMalfunction, out byte lightMalfunctionChance) && CommonExtensions.ChanceChecker(lightMalfunctionChance))
             {
-                var cassie = PluginMain.Singleton.Config.LightMalfunctionCassie;
-                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
+                var cassie = PluginMain.Singleton.Translation.LightMalfunctionCassie;
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Message, cassie.Subtitles);
 
                 Timing.CallDelayed(PluginMain.Singleton.Config.DelayBeforeEvents, LightingMalfunction);
             }
@@ -77,17 +76,10 @@ namespace RandomMalfunction
 
         public void OnRoundEnded()
         {
-            // Timing.KillCoroutines(_coroutines); // Не работает ??
-
-
-            foreach (var coroutine in _coroutines)
-            {
-                Timing.KillCoroutines(coroutine);
-            }
+            Timing.KillCoroutines(_coroutines.ToArray()); // Не работает ??
 
             _coroutines.Clear();
         }
-
 
 
         private void OpenAllDoors()
@@ -102,8 +94,8 @@ namespace RandomMalfunction
 
         private void BlockLcsChekpoints()
         {
-            var cassie = PluginMain.Singleton.Config.BlockLczCheckpointsCassie;
-            Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie, cassie.Translation);
+            var cassie = PluginMain.Singleton.Translation.BlockLczCheckpointsCassie;
+            Exiled.API.Features.Cassie.MessageTranslated(cassie.Message, cassie.Subtitles);
 
             Door.List.FirstOrDefault((Door d) => d.Type == DoorType.CheckpointLczA).Lock(
                 PluginMain.Singleton.Config.LczCheckpointBlockDuration, DoorLockType.Isolation);
@@ -132,7 +124,7 @@ namespace RandomMalfunction
             // Получаем стадию по секундам из конфига
             if (PluginMain.Singleton.Config.CassieBySeconds.TryGetValue((int)secondsLeft, out var cassie))
             {
-                Exiled.API.Features.Cassie.MessageTranslated(cassie.Cassie,cassie.Translation);
+                Exiled.API.Features.Cassie.MessageTranslated(cassie.Message, cassie.Subtitles);
             }
 
             if (secondsLeft == 0)

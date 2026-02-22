@@ -1,10 +1,9 @@
 ﻿using Exiled.API.Features;
-using Exiled.API.Features.Core.Generic;
 using System;
 
 namespace RandomMalfunction
 {
-    public class PluginMain : Plugin<Config>
+    public class PluginMain : Plugin<Config, Translation>
     {
         public static PluginMain Singleton { get; set; }
 

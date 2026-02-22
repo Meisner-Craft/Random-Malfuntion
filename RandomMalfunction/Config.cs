@@ -74,57 +74,36 @@ namespace RandomMalfunction
         public float HczDecontaminationDuration { get; set; } = 900f;
 
         [Description("Фазы в секундах")]
-        public Dictionary<int, CassieMessage> CassieBySeconds { get; set; } = new Dictionary<int, CassieMessage>()
+        public Dictionary<int, Exiled.API.Features.CassieMessage> CassieBySeconds { get; set; } = new Dictionary<int, Exiled.API.Features.CassieMessage>()
         {
             {
-                900, new CassieMessage
+                900, new Exiled.API.Features.CassieMessage
                 {
-                    Cassie = "cassie sl attentionallpersonnel . the heavy containment zone decontamination process will begun in tminus 15 minutes . all biological substantial must be moved to avoid destruction",
-                    Translation = "Внимание всему персоналу! <split>Обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 15 минут. <split> Все биологические субстанции должны быть удалены во избежание уничтожения. "
+                    Message = "cassie sl attentionallpersonnel . the heavy containment zone decontamination process will begun in tminus 15 minutes . all biological substantial must be moved to avoid destruction",
+                    Subtitles = "Внимание всему персоналу! <split>Обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 15 минут. <split> Все биологические субстанции должны быть удалены во избежание уничтожения. "
                 }
             },
             {
-                600, new CassieMessage
+                600, new Exiled.API.Features.CassieMessage
                 {
-                    Cassie = "cassie sl danger . heavy containment zone overall decontamination in tminus 15 minutes",
-                    Translation = "Опасность, процесс обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 10 минут."
+                    Message = "cassie sl danger . heavy containment zone overall decontamination in tminus 15 minutes",
+                    Subtitles = "Опасность, процесс обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 10 минут."
                 }
             },
             {
-                300, new CassieMessage
+                300, new Exiled.API.Features.CassieMessage
                 {
-                    Cassie = "cassie sl danger . heavy containment zone overall decontamination in tminus 5 minutes",
-                    Translation = "Опасность, процесс обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 5 минут."
+                    Message = "cassie sl danger . heavy containment zone overall decontamination in tminus 5 minutes",
+                    Subtitles = "Опасность, процесс обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 5 минут."
                 }
             },
             {
-                60, new CassieMessage
+                60, new Exiled.API.Features.CassieMessage
                 {
-                    Cassie = "cassie sl danger . heavy containment zone overall decontamination in tminus 1 minutes",
-                    Translation = "Опасность, процесс обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 1 минуту."
+                    Message = "cassie sl danger . heavy containment zone overall decontamination in tminus 1 minutes",
+                    Subtitles = "Опасность, процесс обеззараживание <color=#900020>тяжёлой зоны содержания</color> начнется через 1 минуту."
                 }
             }
-        };
-
-        [Description("Блокировка чекпоинтов в ЛЗС")]
-        public CassieMessage BlockLczCheckpointsCassie = new CassieMessage
-        {
-            Cassie = "$pitch_0.97 attention . initiated emergency lockdown protocol . the light containment zone is closed in 2 minutes",
-            Translation = "Внимание! Инициирован чрезвычайный изоляционный протокол. <color=#e5df9e>Легкая зона содержания</color> заблокирована на 2 минуты!"
-        };
-
-        [Description("Поломка света")]
-        public CassieMessage LightMalfunctionCassie = new CassieMessage
-        {
-            Cassie = "$PITCH_0.21 .G4 $PITCH_0.18 .G4 $PITCH_0.95 . attention . emergency power outage for $PITCH_0.1 .G2 $PITCH_0.93 . minutes . . $PITCH_0.09 .g5 .g2",
-            Translation = "<split> Внимание! <split> Аварийное отключение света во всём учреждении на ░ минут..."
-        };
-
-        [Description("Поломка дверей")]
-        public CassieMessage DoorMalfunctionCassie = new CassieMessage
-        {
-            Cassie = "$pitch_0.96 attention . overall door control system malfunction detected",
-            Translation = "Внимание! <split> Обнаружены многочисленные неисправности в системе дистанционного управления дверьми учреждения!"
         };
     }
 }
